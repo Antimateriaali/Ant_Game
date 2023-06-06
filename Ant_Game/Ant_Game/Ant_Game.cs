@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FarseerPhysics.Dynamics;
 using Jypeli;
 using Jypeli.Assets;
 using Jypeli.Controls;

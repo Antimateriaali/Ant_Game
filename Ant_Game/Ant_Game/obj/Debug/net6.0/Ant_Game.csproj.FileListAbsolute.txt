@@ -58,3 +58,6 @@ C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\MuurahainenS
 C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\MuurahainenSiivillailmansiipia.png
 C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\Maa.png
 C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\Lehti.png
+C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\Nest.png
+C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\Muurahainen1.png
+C:\MyTemp\koira\Ant_Game\Ant_Game\Ant_Game\bin\Debug\net6.0\Content\Muurahainen2.png

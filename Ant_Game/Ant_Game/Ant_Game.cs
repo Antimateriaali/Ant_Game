@@ -13,6 +13,7 @@ public class Ant_Game : PhysicsGame
 {
     Image StartAnt = LoadImage("Muurahainen.png");
     Image taustakuva = LoadImage("Maa.png");
+    Image Arrow = LoadImage("Arrow.png");
     private Image Leaf = LoadImage("Lehti.png");
     private Image Nest = LoadImage("Nest.png");
     private Image[] Walk = LoadImages("Muurahainen.png", "Muurahainen1.png", "Muurahainen.png","Muurahainen2.png");
@@ -50,31 +51,36 @@ public class Ant_Game : PhysicsGame
         // startant.Animation.Start();
         // startant.Animation.Stop();
         startant.Velocity = vektori;
-        startant.MaxVelocity = 200;
+        startant.MaxVelocity = 400;
 
         if (vektori.Y < 0)
         {
             
-            startant.MaxVelocity = 200;
-            startant.Angle = Angle.StraightAngle;
+            startant.MaxVelocity = 400;
+            startant.Angle = Angle.FromDegrees(-90);
+            
         }
         else if (vektori.Y > 0)
         {
             
-            startant.MaxVelocity = 200;
-            startant.Angle = Angle.Zero;
+            startant.MaxVelocity = 400;
+            startant.Angle = Angle.RightAngle;
         }
         else if (vektori.X < 0)
         {
             
-            startant.MaxVelocity = 200;
-            startant.Angle = Angle.RightAngle;
+            startant.MaxVelocity = 400;
+            startant.Angle = Angle.StraightAngle;
+            
+            
         }
         else if (vektori.X > 0)
         {
             
-            startant.MaxVelocity = 200;
-            startant.Angle = Angle.FromDegrees(-90);
+            startant.MaxVelocity = 400;
+            startant.Angle = Angle.Zero;
+            
+            
         }
         else
         {
@@ -91,9 +97,10 @@ public class Ant_Game : PhysicsGame
     void Kentta()
     {
         Level.Background.Image = taustakuva;
-        int kentankoko = 4000;
+        int kentankoko = 40000;
         Level.Width = kentankoko;
         Level.Height = kentankoko;
+        Level.Background.TileToLevel();
         Level.CreateBorders();
         Level.Background.FitToLevel();
         Camera.StayInLevel = true;
@@ -104,11 +111,14 @@ public class Ant_Game : PhysicsGame
         //startant.Image = StartAnt;
         startant.Animation = new Animation(Walk);
         
-        
+        startant.Y = RandomGen.NextDouble(-20000, 20000);
+        startant.X = RandomGen.NextDouble(-20000, 20000);
         
         startant.Animation.FPS = 3;
         startant.CanRotate = false;
         Add(startant);
+        
+        
 
         for (int o = 0; o < 5; o++)
         {
@@ -119,8 +129,8 @@ public class Ant_Game : PhysicsGame
             leaf.CanRotate = false;
             leaf.MaxVelocity = 0;
             leaf.IgnoresCollisionResponse = true;
-            leaf.Y = RandomGen.NextDouble(-2000, 2000);
-            leaf.X = RandomGen.NextDouble(-2000, 2000);
+            leaf.Y = RandomGen.NextDouble(-20000, 20000);
+            leaf.X = RandomGen.NextDouble(-20000, 20000);
             
             Add(leaf, -1);
         }
@@ -135,7 +145,7 @@ public class Ant_Game : PhysicsGame
         
         Add(pesa,-1);
 
-        for (int i = 0; i < 100; i++)
+        /*for (int i = 0; i < 100; i++)
         {
             PhysicsObject ant = new PhysicsObject(40, 40);
             
@@ -152,7 +162,7 @@ public class Ant_Game : PhysicsGame
             
             
             FollowerBrain aivot = new FollowerBrain("leaf");
-            aivot.Speed = 100;                 
+            aivot.Speed = 200;                 
             aivot.DistanceFar = 60000;           
             aivot.DistanceClose = 10;         
             aivot.StopWhenTargetClose = false;  
@@ -162,9 +172,9 @@ public class Ant_Game : PhysicsGame
             ant.Brain = satunnaisaivot;
             ant.MaxVelocity = 200;
             Add(ant);
-        }
+        }*/
         
-        /*for (int i = 0; i < 100; i++)
+        for (int u = 0; u < 300; u++)
         {
             PhysicsObject ant1 = new PhysicsObject(40, 40);
             
@@ -176,18 +186,46 @@ public class Ant_Game : PhysicsGame
             ant1.Image = StartAnt;
             ant1.Color = new Color(255, 0, 0);
             ant1.CanRotate = false;
-            RandomMoverBrain satunnaisaivot = new RandomMoverBrain(200);
-            FollowerBrain aivot = new FollowerBrain("leaf");
-            aivot.Speed = 300;                 // Millä nopeudella kohdetta seurataan
+
+            RandomMoverBrain home = new RandomMoverBrain(200);
+            home.TurnWhileMoving = true;
+            home.WanderPosition = new Vector(0, 0);
+            home.WanderRadius = 500;
+            
+            
+            /*FollowerBrain aivothome = new FollowerBrain(pesa);
+            aivothome.TurnWhileMoving = true;
+            aivothome.Speed = 200;                 // Millä nopeudella kohdetta seurataan
+            aivothome.DistanceFar = 600;           // Etäisyys jolla aletaan seurata kohdetta
+            aivothome.DistanceClose = 200;         // Etäisyys jolloin ollaan lähellä kohdetta
+            aivothome.CloseBrain = home;*/
+            
+            FollowerBrain aivot = new FollowerBrain(startant);
+            aivot.TurnWhileMoving = true;
+            aivot.Speed = 200;                 // Millä nopeudella kohdetta seurataan
             aivot.DistanceFar = 600;           // Etäisyys jolla aletaan seurata kohdetta
-            aivot.DistanceClose = 200;         // Etäisyys jolloin ollaan lähellä kohdetta
+            aivot.DistanceClose = 20;         // Etäisyys jolloin ollaan lähellä kohdetta
             aivot.StopWhenTargetClose = true;  // Pysähdytään kun ollaan lähellä kohdetta
-            aivot.FarBrain = satunnaisaivot;
+            aivot.FarBrain = home;
             
             ant1.Brain = aivot;
             ant1.MaxVelocity = 200;
+            ant1.Y = RandomGen.NextDouble(-20000, 20000);
+            ant1.X = RandomGen.NextDouble(-20000, 20000);
             Add(ant1);
-        }*/
+            
+            
+        }
+        
+        GameObject Nuoli = new GameObject(20, 20);
+        Nuoli.Shape = Shape.Rectangle;
+        Nuoli.Image = Arrow;
+        Vector suunta = (pesa.Position - startant.Position).Normalize();
+        Nuoli.Y = startant.Y+50;
+        Nuoli.X = startant.X;
+        
+        startant.Add(Nuoli); 
+        
         
     }
 }
